@@ -1,50 +1,83 @@
 import React, { useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Grid from "@mui/material/Grid";
 import { NotesContext } from "../context/NotesContextProvider";
 
 const Cards = () => {
   const { notes } = useContext(NotesContext);
 
-  console.log(notes);
-
   return (
-    <Stack
-      direction={"row"}
+    <Grid
+      container
       alignItems="center"
-      justifyContent="start"
-      sx={{ m: "1rem 0", flexWrap: "wrap" }}
+      sx={{
+        m: "1rem 0",
+        flexWrap: "wrap",
+        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+      }}
+      flexDirection="row"
+      // gap={1}
+      // spacing={1}
     >
-      {notes?.map((note) => (
-        <Card
-          key={note?.id}
-          sx={{ width: 275, height: 175, borderRadius: "1rem" }}
-        >
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
+      {notes?.map((note) => {
+        let bgColor = "";
+
+        switch (note?.priority.toLowerCase()) {
+          case "low":
+            bgColor = "green";
+            break;
+          case "medium":
+            bgColor = "yellow";
+            break;
+          case "high":
+            bgColor = "red";
+            break;
+          default:
+            break;
+        }
+
+        return (
+          <Grid item xs={3} mb={2}>
+            <Card
+              key={note?.id}
+              sx={{ width: 275, height: 175, borderRadius: "1rem" }}
             >
-              {note?.title}
-            </Typography>
-            <Typography variant="h5" component="div">
-              {note?.description}
-            </Typography>
-            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              {note?.note}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions>
-        </Card>
-      ))}
-    </Stack>
+              <CardContent>
+                <Stack direction="row" justifyContent="space-between">
+                  <Typography
+                    sx={{ fontSize: 14 }}
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    {note?.title}
+                  </Typography>
+
+                  <Box
+                    component="div"
+                    sx={{
+                      background: bgColor,
+                      borderRadius: "50%",
+                      width: "10px",
+                      height: "10px",
+                    }}
+                  />
+                </Stack>
+                <Typography variant="h5" component="div">
+                  {note?.description}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  {note?.note}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 };
 

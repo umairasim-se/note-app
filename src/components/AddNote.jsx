@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
@@ -18,6 +18,8 @@ import RHFTextfield from "./hook-form/RHFTextfield";
 import RHFSelect from "./hook-form/RHFSelect";
 
 import CloseIcon from "@mui/icons-material/Close";
+
+import { NotesContext } from "../context/NotesContextProvider";
 
 const style = {
   position: "absolute",
@@ -41,6 +43,8 @@ const defaultValues = {
 };
 
 const AddNote = ({ open, handleClose }) => {
+  const { addNote } = useContext(NotesContext);
+
   const NotesSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
@@ -63,7 +67,8 @@ const AddNote = ({ open, handleClose }) => {
       priority: data?.priority,
     };
 
-    console.log(formData);
+    addNote({ ...formData });
+    handleClose(reset);
   };
 
   return (
