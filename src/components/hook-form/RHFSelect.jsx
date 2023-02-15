@@ -1,9 +1,9 @@
-// form
-import { useFormContext, Controller } from "react-hook-form";
-// @mui
 import TextField from "@mui/material/TextField";
+import { useFormContext, Controller } from "react-hook-form";
 
-const RHFTextfield = ({ name, ...other }) => {
+import React from "react";
+
+const RHFSelect = ({ name, ...other }) => {
   const { control } = useFormContext();
 
   return (
@@ -14,6 +14,7 @@ const RHFTextfield = ({ name, ...other }) => {
         <TextField
           {...field}
           fullWidth
+          select
           value={
             typeof field.value === "number" && field.value === 0
               ? ""
@@ -28,4 +29,4 @@ const RHFTextfield = ({ name, ...other }) => {
   );
 };
 
-export default RHFTextfield;
+export default RHFSelect;

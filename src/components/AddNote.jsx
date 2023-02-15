@@ -8,7 +8,6 @@ import Stack from "@mui/material/Stack";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 
 import * as Yup from "yup";
 // form
@@ -16,6 +15,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, FormProvider } from "react-hook-form";
 
 import RHFTextfield from "./hook-form/RHFTextfield";
+import RHFSelect from "./hook-form/RHFSelect";
 
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -37,6 +37,7 @@ const defaultValues = {
   title: "",
   description: "",
   note: "",
+  priority: "",
 };
 
 const AddNote = ({ open, handleClose }) => {
@@ -54,12 +55,23 @@ const AddNote = ({ open, handleClose }) => {
 
   const { reset, handleSubmit } = methods;
 
+  const onSubmit = (data) => {
+    const formData = {
+      title: data?.title,
+      description: data?.description,
+      note: data?.note,
+      priority: data?.priority,
+    };
+
+    console.log(formData);
+  };
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={open}
-      onClose={handleClose}
+      onClose={() => handleClose(reset)}
       closeAfterTransition
     >
       <Fade in={open}>
@@ -78,80 +90,77 @@ const AddNote = ({ open, handleClose }) => {
                 <CloseIcon
                   fontSize="medium"
                   sx={{ cursor: "pointer" }}
-                  onClick={handleClose}
+                  onClick={() => handleClose(reset)}
                 />
               </Box>
             </Stack>
           </Stack>
 
           <Stack direction="column">
-            <FormProvider
-              {...methods}
-              onSubmit={handleSubmit((e) => {
-                e.preventDefault();
-              })}
-            >
-              <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
-                <InputLabel id="title-id"> Title </InputLabel>
-                <RHFTextfield
-                  id="title-id"
-                  name="title"
-                  placeholder="Title"
-                  fullWidth
-                  size="small"
-                />
-              </Stack>
-              <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
-                <InputLabel id="description-id"> Description </InputLabel>
-                <RHFTextfield
-                  id="description-id"
-                  name="description"
-                  placeholder="Description"
-                  fullWidth
-                  size="small"
-                />
-              </Stack>
-              <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
-                <InputLabel id="note-id"> Note </InputLabel>
-                <RHFTextfield
-                  id="note-id"
-                  name="note"
-                  placeholder="Note"
-                  fullWidth
-                  size="small"
-                />
-              </Stack>
+            <FormProvider {...methods}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
+                  <InputLabel id="title-id"> Title </InputLabel>
+                  <RHFTextfield
+                    id="title-id"
+                    name="title"
+                    placeholder="Title"
+                    size="small"
+                  />
+                </Stack>
+                <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
+                  <InputLabel id="description-id"> Description </InputLabel>
+                  <RHFTextfield
+                    id="description-id"
+                    name="description"
+                    placeholder="Description"
+                    size="small"
+                  />
+                </Stack>
+                <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
+                  <InputLabel id="note-id"> Note </InputLabel>
+                  <RHFTextfield
+                    id="note-id"
+                    name="note"
+                    placeholder="Note"
+                    size="small"
+                  />
+                </Stack>
 
-              <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                <InputLabel id="note-id"> Priority </InputLabel>
-                <Select defaultValue={"Low"} name="priority" size="small">
-                  <MenuItem value="Low">Low</MenuItem>
-                  <MenuItem value="Medium">Medium</MenuItem>
-                  <MenuItem value="High">High</MenuItem>
-                </Select>
-              </Stack>
+                <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
+                  <InputLabel id="note-id"> Priority </InputLabel>
+                  <RHFSelect defaultValue={"Low"} name="priority" size="small">
+                    <MenuItem value="Low">Low</MenuItem>
+                    <MenuItem value="Medium">Medium</MenuItem>
+                    <MenuItem value="High">High</MenuItem>
+                  </RHFSelect>
+                </Stack>
 
-              <Stack justifyContent={"flex-end"} sx={{ mt: 2, width: "100px" }}>
-                <Button
-                  type="submit"
-                  disableRipple
-                  sx={{
-                    color: "#fff",
-                    background: "#2B6CB0",
-                    "&:hover": {
-                      background: "#4e96e1",
-                    },
-                    "&:focus": {
-                      outline: "none",
-                    },
-                    "&:active": {
-                      background: "#4e96e1",
-                    },
-                  }}
+                <Stack
+                  justifyContent={"flex-end"}
+                  sx={{ mt: 2, width: "100px" }}
                 >
-                  Save
-                </Button>
-              </Stack>
+                  <Button
+                    type="submit"
+                    disableRipple
+                    sx={{
+                      color: "#fff",
+                      background: "#2B6CB0",
+                      "&:hover": {
+                        background: "#4e96e1",
+                      },
+                      "&:focus": {
+                        outline: "none",
+                      },
+                      "&:active": {
+                        background: "#4e96e1",
+                      },
+                    }}
+                  >
+                    Save
+                  </Button>
+                </Stack>
+              </form>
             </FormProvider>
           </Stack>
         </Box>

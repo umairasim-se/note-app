@@ -20,7 +20,10 @@ const Header = () => {
   };
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = (reset) => {
+    setOpen(false);
+    reset();
+  };
 
   return (
     <Box component={"div"}>
