@@ -1,10 +1,27 @@
-import React from "react";
+import { useContext, useId, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import { NotesContext } from "../context/NotesContextProvider";
+import AddNote from "./AddNote";
 
 const Header = () => {
+  const [open, setOpen] = useState(false);
+  const id = useId();
+
+  const { addNote } = useContext(NotesContext);
+
+  const note = {
+    id,
+    title: "Some Random Note",
+    description: "This note is for testing purposes",
+    note: "Who really cares???",
+  };
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Box component={"div"}>
       <Stack
@@ -24,6 +41,7 @@ const Header = () => {
 
         <Button
           disableRipple
+          onClick={handleOpen}
           sx={{
             borderRadius: "8px",
             border: "1px solid transparent",
@@ -43,6 +61,7 @@ const Header = () => {
           + Add Note
         </Button>
       </Stack>
+      <AddNote handleClose={handleClose} open={open} />
     </Box>
   );
 };
