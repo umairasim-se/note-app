@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -13,6 +13,7 @@ const Cards = () => {
   const { notes, priority } = useContext(NotesContext);
   const [allNotes, setAllNotes] = useState([]);
   const [open, setOpen] = useState(false);
+  const [currentNote, setCurrentNote] = useState("");
 
   useEffect(() => {
     if (priority !== "All") {
@@ -23,9 +24,9 @@ const Cards = () => {
     }
   }, [notes, priority]);
 
-  const handleModal = () => {
+  const handleModal = useCallback(() => {
     setOpen((state) => !state);
-  };
+  }, []);
 
   return (
     <>
@@ -35,7 +36,6 @@ const Cards = () => {
         sx={{
           m: "1rem 0",
           flexWrap: "wrap",
-          // gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
         }}
         flexDirection="row"
         // gap={1}
@@ -61,7 +61,10 @@ const Cards = () => {
           return (
             <Grid item key={note?.id} xs={12} sm={6} md={3} sx={{ p: 1 }}>
               <Card
-                onClick={() => handleModal()}
+                onClick={() => {
+                  handleModal();
+                  setCurrentNote(note);
+                }}
                 sx={{
                   height: "175px",
                   borderRadius: "1rem",
@@ -96,11 +99,16 @@ const Cards = () => {
                   </Typography>
                 </CardContent>
               </Card>
+              {<code style={{ color: "#084db3" }}>{note?.timeStamp}</code>}
             </Grid>
           );
         })}
       </Grid>
-      <NoteModal open={open} handleClose={handleModal} />
+      <NoteModal
+        currentNote={currentNote}
+        open={open}
+        handleClose={handleModal}
+      />
     </>
   );
 };

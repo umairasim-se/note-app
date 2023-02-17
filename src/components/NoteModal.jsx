@@ -10,11 +10,6 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { useForm, FormProvider } from "react-hook-form";
-
-import RHFTextfield from "./hook-form/RHFTextfield";
-import RHFSelect from "./hook-form/RHFSelect";
-
 const style = {
   position: "absolute",
   top: "45%",
@@ -22,14 +17,14 @@ const style = {
   transform: "translate(-50%, -50%)",
   width: 350,
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  // border: "2px solid #000",
   boxShadow: 24,
   p: "2rem",
   color: "#000",
   fontFamily: "inherit",
 };
 
-const NoteModal = ({ open, handleClose }) => {
+const NoteModal = ({ open, handleClose, currentNote }) => {
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -47,7 +42,7 @@ const NoteModal = ({ open, handleClose }) => {
                 variant="h6"
                 component="h2"
               >
-                New Note
+                {currentNote?.title}
               </Typography>
 
               <Box>
@@ -58,6 +53,8 @@ const NoteModal = ({ open, handleClose }) => {
                 />
               </Box>
             </Stack>
+
+            <Box component="p">{currentNote?.description}</Box>
           </Stack>
         </Box>
       </Fade>

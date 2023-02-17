@@ -60,11 +60,22 @@ const AddNote = ({ open, handleClose }) => {
   const { reset, handleSubmit } = methods;
 
   const onSubmit = (data) => {
+    const timestamp = new Date().toLocaleString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+      hour12: false,
+    });
+
     const formData = {
       title: data?.title,
       description: data?.description,
       note: data?.note,
       priority: data?.priority,
+      timeStamp: timestamp,
     };
 
     addNote({ ...formData });
