@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import React, { createContext, useReducer } from "react";
 
 export const NotesContext = createContext(null);
 
@@ -14,17 +14,26 @@ const handlers = {
   },
   REMOVE: (state, action) => {
     const { id } = action.payload;
+    console.log(state.notes);
     const filteredNotes = state.notes.filter((note) => note.id !== id);
 
-    return { notes: [...filteredNotes], ...state };
+    console.log(filteredNotes);
+
+    return { ...state, notes: [...filteredNotes] };
   },
   EDIT: (state, action) => {
     const { id, data } = action.payload;
 
-    const targetNote = state.notes.find((note) => note.id === id);
-    const editedNote = { ...targetNote, ...data };
+    const targetNoteIndex = state.notes.findIndex((note) => note.id === id);
+    const editedNote = { ...state.notes[targetNoteIndex], ...data };
+    const newNotesArray = state.notes.map((note, index) => {
+      if (index === targetNoteIndex) {
+        return editedNote;
+      }
+      return note;
+    });
 
-    return { ...state, editedNote };
+    return { ...state, notes: newNotesArray };
   },
   SETPRIORITY: (state, action) => {
     const priority = action.payload.data;

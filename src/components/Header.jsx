@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -44,7 +44,7 @@ const Header = () => {
       >
         <Typography
           component={"h1"}
-          sx={{ color: "#000", fontFamily: "inherit", fontSize: "2rem" }}
+          sx={{ fontFamily: "inherit", fontSize: "2rem" }}
         >
           Notes App
         </Typography>
@@ -62,10 +62,12 @@ const Header = () => {
             backgroundColor: "#61dafb",
             cursor: "pointer",
             transition: "border-color background 0.25s",
-            outline: "none",
             color: "#000",
             "&:hover": {
               backgroundColor: "#4dbedd",
+            },
+            "&:focus": {
+              outline: "none",
             },
           }}
         >

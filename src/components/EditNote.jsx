@@ -1,4 +1,4 @@
-import React, { useContext, useId } from "react";
+import React, { useContext } from "react";
 
 import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
@@ -35,29 +35,29 @@ const style = {
   fontFamily: "inherit",
 };
 
-const defaultValues = {
-  title: "",
-  description: "",
-  note: "",
-  priority: "",
-};
+const EditNote = ({ open, handleClose, currentNote }) => {
+  const { editNote } = useContext(NotesContext);
 
-const AddNote = ({ open, handleClose }) => {
-  const { addNote } = useContext(NotesContext);
-
-  const NotesSchema = Yup.object().shape({
+  const NoteSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     description: Yup.string().required("Description is required"),
     note: Yup.string().required("Note is required"),
     priority: Yup.string(),
   });
 
+  const { title, description, note, priority, id } = currentNote;
+
+  const defaultValues = {
+    title,
+    description,
+    note,
+    priority,
+  };
+
   const methods = useForm({
-    resolver: yupResolver(NotesSchema),
+    resolver: yupResolver(NoteSchema),
     defaultValues,
   });
-
-  const id = useId();
 
   const { reset, handleSubmit } = methods;
 
@@ -72,16 +72,18 @@ const AddNote = ({ open, handleClose }) => {
       hour12: false,
     });
 
+    const { title, description, note, priority } = data;
+
     const formData = {
       id,
-      title: data?.title,
-      description: data?.description,
-      note: data?.note,
-      priority: data?.priority,
-      timeStamp: timestamp,
+      title,
+      description,
+      note,
+      priority,
+      timestamp,
     };
 
-    addNote({ ...formData });
+    editNote({ ...formData });
     handleClose(reset);
   };
 
@@ -102,7 +104,7 @@ const AddNote = ({ open, handleClose }) => {
                 variant="h6"
                 component="h2"
               >
-                New Note
+                Edit Note
               </Typography>
 
               <Box>
@@ -125,6 +127,7 @@ const AddNote = ({ open, handleClose }) => {
                     name="title"
                     placeholder="Title"
                     size="small"
+                    defaultValue={title}
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
@@ -134,6 +137,7 @@ const AddNote = ({ open, handleClose }) => {
                     name="description"
                     placeholder="Description"
                     size="small"
+                    defaultValue={description}
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
@@ -143,12 +147,17 @@ const AddNote = ({ open, handleClose }) => {
                     name="note"
                     placeholder="Note"
                     size="small"
+                    defaultValue={note}
                   />
                 </Stack>
 
                 <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
                   <InputLabel id="note-id"> Priority </InputLabel>
-                  <RHFSelect defaultValue={"Low"} name="priority" size="small">
+                  <RHFSelect
+                    defaultValue={priority}
+                    name="priority"
+                    size="small"
+                  >
                     <MenuItem value="Low">Low</MenuItem>
                     <MenuItem value="Medium">Medium</MenuItem>
                     <MenuItem value="High">High</MenuItem>
@@ -188,4 +197,4 @@ const AddNote = ({ open, handleClose }) => {
   );
 };
 
-export default AddNote;
+export default EditNote;
