@@ -4,19 +4,32 @@ export const NotesContext = createContext(null);
 
 const initialState = {
   notes: [],
+  priority: "All",
 };
 
 const handlers = {
   ADD: (state, action) => {
     const { note } = action.payload;
-    console.log(state);
-    return { notes: [...state.notes, note] };
+    return { ...state, notes: [...state.notes, note] };
   },
   REMOVE: (state, action) => {
     const { id } = action.payload;
     const filteredNotes = state.notes.filter((note) => note.id !== id);
 
-    return [...filteredNotes];
+    return { notes: [...filteredNotes], ...state };
+  },
+  EDIT: (state, action) => {
+    const { id, data } = action.payload;
+
+    const targetNote = state.notes.find((note) => note.id === id);
+    const editedNote = { ...targetNote, ...data };
+
+    return { ...state, editedNote };
+  },
+  SETPRIORITY: (state, action) => {
+    const priority = action.payload.data;
+
+    return { ...state, priority };
   },
 };
 
@@ -34,8 +47,18 @@ const NotesContextProvider = ({ children }) => {
     dispatch({ type: "REMOVE", payload: { id } });
   };
 
+  const editNote = (id, data) => {
+    dispatch({ type: "REMOVE", payload: { id, data } });
+  };
+
+  const setPriority = (data) => {
+    dispatch({ type: "SETPRIORITY", payload: { data } });
+  };
+
   return (
-    <NotesContext.Provider value={{ ...state, addNote, removeNote }}>
+    <NotesContext.Provider
+      value={{ ...state, addNote, removeNote, editNote, setPriority }}
+    >
       {children}
     </NotesContext.Provider>
   );
