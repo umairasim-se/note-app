@@ -39,9 +39,9 @@ const EditNote = ({ open, handleClose, currentNote }) => {
   const { editNote } = useContext(NotesContext);
 
   const NoteSchema = Yup.object().shape({
-    title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
-    note: Yup.string().required("Note is required"),
+    title: Yup.string(),
+    description: Yup.string(),
+    note: Yup.string(),
     priority: Yup.string(),
   });
 
@@ -83,8 +83,8 @@ const EditNote = ({ open, handleClose, currentNote }) => {
       timestamp,
     };
 
-    editNote({ ...formData });
-    handleClose(reset);
+    editNote(id, { ...formData });
+    handleClose();
   };
 
   return (
@@ -92,7 +92,7 @@ const EditNote = ({ open, handleClose, currentNote }) => {
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={open}
-      onClose={() => handleClose(reset)}
+      onClose={() => handleClose()}
       closeAfterTransition
     >
       <Fade in={open}>
@@ -127,7 +127,6 @@ const EditNote = ({ open, handleClose, currentNote }) => {
                     name="title"
                     placeholder="Title"
                     size="small"
-                    defaultValue={title}
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
@@ -137,7 +136,6 @@ const EditNote = ({ open, handleClose, currentNote }) => {
                     name="description"
                     placeholder="Description"
                     size="small"
-                    defaultValue={description}
                   />
                 </Stack>
                 <Stack direction={"column"} spacing={1} sx={{ mt: 2 }}>
@@ -147,17 +145,12 @@ const EditNote = ({ open, handleClose, currentNote }) => {
                     name="note"
                     placeholder="Note"
                     size="small"
-                    defaultValue={note}
                   />
                 </Stack>
 
                 <Stack direction="column" spacing={1} sx={{ mt: 2 }}>
-                  <InputLabel id="note-id"> Priority </InputLabel>
-                  <RHFSelect
-                    defaultValue={priority}
-                    name="priority"
-                    size="small"
-                  >
+                  <InputLabel id="select-id"> Priority </InputLabel>
+                  <RHFSelect id="select-id" name="priority" size="small">
                     <MenuItem value="Low">Low</MenuItem>
                     <MenuItem value="Medium">Medium</MenuItem>
                     <MenuItem value="High">High</MenuItem>
@@ -197,4 +190,4 @@ const EditNote = ({ open, handleClose, currentNote }) => {
   );
 };
 
-export default EditNote;
+export default React.memo(EditNote);

@@ -10,9 +10,6 @@ const Cards = () => {
   const { notes, priority } = useContext(NotesContext);
 
   const [allNotes, setAllNotes] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [currentNote, setCurrentNote] = useState("");
-  const [openEditModal, setOpenEditModal] = useState(false);
 
   useEffect(() => {
     if (priority !== "All") {
@@ -22,18 +19,6 @@ const Cards = () => {
       setAllNotes([...notes]);
     }
   }, [notes, priority]);
-
-  const handleModal = useCallback(() => {
-    setOpen((state) => !state);
-  }, []);
-
-  const handleEditModal = useCallback(() => {
-    setOpenEditModal((state) => !state);
-  }, []);
-
-  const setNote = useCallback((note) => {
-    setCurrentNote(note);
-  });
 
   return (
     <>
@@ -47,27 +32,9 @@ const Cards = () => {
         flexDirection="row"
       >
         {allNotes?.map((note) => {
-          return (
-            <Note
-              key={note?.id}
-              note={note}
-              handleModal={handleModal}
-              setCurrentNote={setNote}
-              openEditModal={handleEditModal}
-            />
-          );
+          return <Note key={note?.id} note={note} />;
         })}
       </Grid>
-      <NoteModal
-        currentNote={currentNote}
-        open={open}
-        handleClose={handleModal}
-      />
-      <EditNote
-        currentNote={currentNote}
-        open={openEditModal}
-        handleClose={handleEditModal}
-      />
     </>
   );
 };

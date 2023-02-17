@@ -5,9 +5,7 @@ import Fade from "@mui/material/Fade";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
-import InputLabel from "@mui/material/InputLabel";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
+
 import CloseIcon from "@mui/icons-material/Close";
 
 const style = {
@@ -62,4 +60,4 @@ const NoteModal = ({ open, handleClose, currentNote }) => {
   );
 };
 
-export default NoteModal;
+export default React.memo(NoteModal);

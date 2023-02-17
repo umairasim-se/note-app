@@ -1,4 +1,4 @@
-import React, { useContext, useId } from "react";
+import React, { useContext } from "react";
 
 import Box from "@mui/material/Box";
 import Fade from "@mui/material/Fade";
@@ -20,6 +20,7 @@ import RHFSelect from "./hook-form/RHFSelect";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { NotesContext } from "../context/NotesContextProvider";
+import { v4 as uuidv4 } from "uuid";
 
 const style = {
   position: "absolute",
@@ -57,8 +58,6 @@ const AddNote = ({ open, handleClose }) => {
     defaultValues,
   });
 
-  const id = useId();
-
   const { reset, handleSubmit } = methods;
 
   const onSubmit = (data) => {
@@ -73,7 +72,7 @@ const AddNote = ({ open, handleClose }) => {
     });
 
     const formData = {
-      id,
+      id: uuidv4(),
       title: data?.title,
       description: data?.description,
       note: data?.note,

@@ -17,8 +17,6 @@ const handlers = {
     console.log(state.notes);
     const filteredNotes = state.notes.filter((note) => note.id !== id);
 
-    console.log(filteredNotes);
-
     return { ...state, notes: [...filteredNotes] };
   },
   EDIT: (state, action) => {
@@ -28,7 +26,7 @@ const handlers = {
     const editedNote = { ...state.notes[targetNoteIndex], ...data };
     const newNotesArray = state.notes.map((note, index) => {
       if (index === targetNoteIndex) {
-        return editedNote;
+        note = { ...editedNote };
       }
       return note;
     });
@@ -57,7 +55,7 @@ const NotesContextProvider = ({ children }) => {
   };
 
   const editNote = (id, data) => {
-    dispatch({ type: "REMOVE", payload: { id, data } });
+    dispatch({ type: "EDIT", payload: { id, data } });
   };
 
   const setPriority = (data) => {
