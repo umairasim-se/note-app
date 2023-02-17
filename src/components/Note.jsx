@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
@@ -39,11 +39,17 @@ const Note = ({ note }) => {
     setOpenEditModal((state) => !state);
   }, []);
 
-  console.log(openEditModal);
-
   const handleModal = useCallback(() => {
     setOpen((state) => !state);
   }, []);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setEdit(false);
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [edit]);
 
   return (
     <>

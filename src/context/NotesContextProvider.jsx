@@ -14,7 +14,6 @@ const handlers = {
   },
   REMOVE: (state, action) => {
     const { id } = action.payload;
-    console.log(state.notes);
     const filteredNotes = state.notes.filter((note) => note.id !== id);
 
     return { ...state, notes: [...filteredNotes] };

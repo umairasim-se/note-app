@@ -111,7 +111,7 @@ const EditNote = ({ open, handleClose, currentNote }) => {
                 <CloseIcon
                   fontSize="medium"
                   sx={{ cursor: "pointer" }}
-                  onClick={() => handleClose(reset)}
+                  onClick={() => handleClose()}
                 />
               </Box>
             </Stack>
