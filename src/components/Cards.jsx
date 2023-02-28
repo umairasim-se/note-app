@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import { NotesContext } from "../context/NotesContextProvider";
-import NoteModal from "./NoteModal";
-import EditNote from "./EditNote";
 import Note from "./Note";
 
 const Cards = () => {
@@ -35,6 +35,17 @@ const Cards = () => {
           return <Note key={note?.id} note={note} />;
         })}
       </Grid>
+      {allNotes.length === 0 && (
+        <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
+          <Typography
+            variant="h3"
+            sx={{ color: "#fff", fontFamily: "inherit" }}
+          >
+            {" "}
+            No Notes yet{" "}
+          </Typography>
+        </Stack>
+      )}
     </>
   );
 };
