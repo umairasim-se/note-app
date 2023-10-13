@@ -1,3 +1,3 @@
 # note-app
 
-### [Demo Link](https://umairasim2022.github.io/note-app/)
+### [Demo Link](https://umairasim-se.github.io/note-app/)
